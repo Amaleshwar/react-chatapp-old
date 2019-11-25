@@ -48,10 +48,10 @@
    padding: 20px;
   }
  .login-wrapper>div{
-    margin: 5px;
+    margin: 0px;
   }
   tr{
-    text-align: left;   
+    text-align: center;   
   }
   /* .login-box {
     background-color: skyblue;
@@ -60,6 +60,11 @@
     width: 100%;
   }
   .login{
+    border-collapse: initial;
+    margin-top: 60px;
+  
+  }
+  .register{
     border-collapse: initial;
   }
   .App-link {
@@ -354,3 +359,92 @@
     content: "";
     flex: auto;
   } */
+  /* .wrap-input100 {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+    margin-bottom: 10px;
+}
+
+
+  .focus-input100 {
+    display: block;
+    position: absolute;
+    border-radius: 25px;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0;
+    color: rgba(87,184,70,.8);
+  }
+  .symbol-input100 {
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    border-radius: 25px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding-left: 35px;
+    pointer-events: none;
+    color: #666;
+
+    transition: all .4s;
+} */
+.input100{
+      font-family: Poppins-Medium; 
+      font-size: 15px;
+      line-height: 1.5;
+      color: #666;
+      display: block;
+      width: 100%;
+      background: #e6e6e6;
+      height: 50px;
+      border-radius: 25px;
+      padding: 0 30px 0 68px;
+      margin: 5px;
+      outline: 0px;
+}
+
+
+/*Chat BOX*/
+
+
+
+ /* .chatbox-app{
+ 
+}  */
+
+/* 
+
+#container {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-areas: "sidebar main";
+  width: 100vw;
+  height: 100vh;
+}
+#main {
+  grid-area: main;
+}
+#new-message {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 5px;
+  margin-left: 0px;
+  border-top: 1px solid #3f3f3f;
+}
+#messages-list {
+  padding: 5px 0 0 5px;
+}
+#sidebar {
+  grid-area: sidebar;
+  padding: 5px 0 0 5px;
+  border-right: 1px solid #3f3f3f;
+  height: 100%;
+} */

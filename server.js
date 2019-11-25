@@ -159,8 +159,6 @@ app.post('/user_register', function (req, res) {
     console.log(err);
     res.send("Error");
   }); 
-
-
 });
 
 app.listen(8000, function() {

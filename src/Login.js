@@ -2,8 +2,8 @@ import React from 'react';
 import Axios from 'axios';
 
 import loginimg from './images/login-img.jpg';
-import loginimg1 from './images/molecular-background.jpg';
-import loginimg2 from './images/login-img.jpg';
+// import loginimg1 from './images/molecular-background.jpg';
+// import loginimg2 from './images/login-img.jpg';
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -41,7 +41,7 @@ export default class Login extends React.Component {
             else
             {
                 this.setState({errormsg:result})
-               // document.getElementById('LoginPopup').style.display='block';
+              
             }
         })
     }
@@ -109,43 +109,26 @@ export default class Login extends React.Component {
                     </div>
 
           {this.state.loginbox &&  <div className="Login-box row">
-                    {/* <div> <strong>  Username: </strong><input type="text" name="username" id="username" title="Enter User Name" placeholder="Enter UserName" /> <br /> </div>
-                    <div>  <strong> Password: </strong> <input type="password"  name="password" id="password" placeholder="Enter Password" /> <br />  </div>
-                    <div> 
-                     <button  id="submit" value="Login" onClick={(e) => this.validateUser(e)}>Login </button> &nbsp;
-                    </div>{this.state.errormsg} */}
                                     <div className="login-img col-sm-6 col-md-6 col-lg-6">
                             <img src={loginimg} className="login-img-tag" alt={"hi"} />
                     </div>
                 <table className="login col-sm-6 col-md-6 col-lg-6">
-                    <tr><td>Username</td></tr>
-                    <tr><input type="text" name="username" id="username" title="Enter User Name" placeholder="Enter UserName" /> </tr>
-                    <tr> Password</tr>
-                    <tr><input type="password"  name="password" id="password" placeholder="Enter Password" /> </tr>
+                    <tr>
+                        <input className="input100" type="text"name="username" id="username" title="Enter User Name" placeholder="Enter UserName"/>
+                    </tr>
+                    <tr><input type="password" className="input100" name="password" id="password" placeholder="Enter Password" /> </tr>
                     <tr><button  id="submit" value="Login" onClick={(e) => this.validateUser(e)}>Login </button></tr>
                 </table>{this.state.errormsg}
 
             </div > }
             
             {this.state.registerbox && <div className="Register-box">
-                    {/* <div className="imgcontainer">
-                        <strong></strong>
-                    </div>
-                    <div> <strong>  Username: </strong><input type="text" name="username" id="uname_register" title="Enter User Name" placeholder="Enter UserName" /> <br /> </div>
-                    <div>  <strong> Email ID: </strong> <input type="text"  name="password" id="email_id"  placeholder="Enter Email ID" onBlur={()=>this.handleemailId()}/> <br />  </div>
-                    <div>  <strong> Password: </strong> <input type="password"  name="password" id="pwd_register" placeholder="Enter Password" /> <br />  </div>
-                    <div>  <strong> Confirm Password: </strong> <input type="text"  name="password" id="pwd_cnfrm"onBlur={()=>this.handlecnfmpwd()} placeholder="Confirm Password" /> <br />  </div>
-                    <div>  <strong> Contact Number: </strong> <input type="text"  name="password" id="cont_No" placeholder="Enter Contact Number" /> <br />  </div>
-                    <div> 
-                    <button  id="submit" value="Login" onClick={() => this.handlenewuser()}>Register </button>
-                    </div>{this.state.errormsg} */}
-
                     <table className="login">
-                    <tr><input type="text" name="username" id="uname_register" title="Enter User Name" placeholder="Enter UserName" /></tr>
-                    <tr><input type="text"  name="password" id="email_id"  placeholder="Enter Email ID" onBlur={()=>this.handleemailId()}/></tr>
-                    <tr><input type="password"  name="password" id="pwd_register" placeholder="Enter Password" /></tr>
-                    <tr><input type="text"  name="password" id="pwd_cnfrm"onBlur={()=>this.handlecnfmpwd()} placeholder="Confirm Password" /></tr>
-                    <tr><input type="text"  name="password" id="cont_No" placeholder="Enter Contact Number" /></tr>
+                    <tr><input type="text" className="input100" name="username" id="uname_register" title="Enter User Name" placeholder="Enter UserName" /></tr>
+                    <tr><input type="text"  className="input100" name="password" id="email_id"  placeholder="Enter Email ID" onBlur={()=>this.handleemailId()}/></tr>
+                    <tr><input type="password" className="input100"  name="password" id="pwd_register" placeholder="Enter Password" /></tr>
+                    <tr><input type="text" className="input100"  name="password" id="pwd_cnfrm"onBlur={()=>this.handlecnfmpwd()} placeholder="Confirm Password" /></tr>
+                    <tr><input type="text" className="input100" name="password" id="cont_No" placeholder="Enter Contact Number" /></tr>
                     <tr><button  id="submit" value="Login" onClick={() => this.handlenewuser()}>Register </button></tr>
             </table>{this.state.errormsg}
 

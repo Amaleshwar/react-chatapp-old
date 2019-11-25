@@ -110,9 +110,7 @@ export default class Calculator extends Component{
                     }
                 }
             }
-            changehandle(){
-                
-            }
+          
     
     render(){
                 
@@ -120,8 +118,8 @@ export default class Calculator extends Component{
             <div className="calc-app">
                     <div className="calc-wrapper">
                         <div className="row">                               
-                            <input  value={this.state.inptvalue} placeholder=" Do Math" className="input"
-                            onKeyDown={(e)=>this.handleInputKeyDown(e)} onChange={()=>this.changehandle()} ></input>
+                            <input  value={this.state.inptvalue} placeholder=" Do Math" className="cal-input"
+                            onKeyDown={(e)=>this.handleInputKeyDown(e)}  />
                         </div>
                         <div className="row">
                             <button  className="btn" onClick={(e)=>this.toinput(1)}>1</button>
