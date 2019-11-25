@@ -1,33 +1,356 @@
-.App {
-  text-align: center;
-}
+  /* imort css from video-react node package for video player */
+  @import '../node_modules/video-react/dist/video-react.css';
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  .App {
+    text-align: center;
+    height: 100%;
+    min-height: 100vh;
+    background-color: #282c34;
+    
   }
-  to {
-    transform: rotate(360deg);
+
+
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+    height: 40px;
+    pointer-events: none;
   }
-}
+
+  .App-body {
+    /* background-color: #282c34;  */
+    /* min-height: 100vh;  */
+  
+    display: flex;
+    flex-direction: row;
+    color: white;
+    flex: 1;
+    flex-wrap:wrap;
+    /* background: url("images\molecular-background.jpg") no-repeat center center fixed; */
+  }
+
+
+   /* Login Page */
+
+  .App-login-body{
+       /* display: flex;
+    flex-direction: column; */
+    color: white;
+    /* flex: 1;
+    flex-wrap:wrap; */
+    margin: 10px;
+    display: inline-block;
+    background-color: white;
+
+  }
+
+  .login-wrapper{
+   padding: 20px;
+  }
+ .login-wrapper>div{
+    margin: 5px;
+  }
+  tr{
+    text-align: left;   
+  }
+  /* .login-box {
+    background-color: skyblue;
+  } */
+  .login-img-tag{
+    width: 100%;
+  }
+  .login{
+    border-collapse: initial;
+  }
+  .App-link {
+    color: #61dafb;
+  }
+
+
+
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .App-header {
+    /* background-color: #282c34; */
+    display: flex;
+    flex-direction: row;
+    color: white;
+    font-size: 20px;
+    justify-content: center;
+  }
+  .header-Text{
+    color: #61dafb;
+  }
+
+  /* Calculator Componnet*/
+
+  .calc-app{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    flex-direction:column;
+    flex: 1;
+  }
+  .calc-wrapper{
+    width: auto;
+    height: auto;
+
+  }
+  .row{
+    display: flex;
+    width: auto;
+    background-color: white;
+    padding: 3px;
+  }
+  .btn{
+    height: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: lighter;
+    font-size: 1.2em;
+    background-color: white;
+    color: black;
+    flex: 1;
+    cursor: pointer;
+  }
+  .operator{
+    background-color: #c7e0e7;
+  }
+  .eval{
+    background-color: rgb(117, 152, 175);
+  }
+  .cal-input
+  {
+    background-color: white;
+    color: black;
+    height: 3em;
+    flex: 1;
+    padding: 6px;
+  }
+
+  /* Clock Componnet*/
+
+  .clock-app{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    flex-direction:column;
+    flex: 1;
+  }
+  .clock-wrapper{
+    border-radius: 50%;
+    height: 155px;
+    width: 155px;
+    background-color: #61dafb;
+
+  }
+  .time-display{
+    /*text-shadow: 1px 1px #61dafb; */
+    font-family: 'roboto', monospace; 
+    font-size: 25px;
+    text-shadow: 0 0 20px rgba(10, 175, 230, 1),  0 0 20px rgba(10, 175, 230, 0);
+    letter-spacing: 0.05em;
+    padding: 0px;
+  }
+  .date-display{
+    font-family: 'roboto', monospace; 
+    font-size: 10px;
+    text-shadow: 0 0 20px rgba(10, 175, 230, 1),  0 0 20px rgba(10, 175, 230, 0);
+    letter-spacing: 0.05em;
+    padding: 5px 0;
+    margin-top:40px; 
+  }
+  .switch-toggle{
+    margin: 5px;
+  }
+
+  /* upload Image */
+
+  .upimg-app{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    flex-direction:column;
+    flex: 1;
+  }
+  .upimg-wrapper{
+
+    height: auto;
+    width: auto;
+    /* background-color: #61dafb; */
+
+  }
+
+
+
+
+
+  /* For background image and text on it  */
+
+  /* #myVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%; 
+    min-height: 100%;
+  }
+
+  .content {
+    position: fixed;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: #f1f1f1;
+    width: 100%;
+    padding: 20px;
+  } */
+
+
+
+  /* edited on 10/22/2019   */
+
+  .Logout{
+    right: 4%;
+    position: absolute;
+    margin: 5px;
+  }
+
+  .Menu{
+
+    color: white;
+    font-size: 20px;
+    justify-content: center;
+    background: #61dafb;
+    display: flex;
+    font-size: 24px;
+    
+  }
+  .menu-link{
+  
+    color: white;
+    margin: 0px 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 1px !important;
+    text-align: center;
+    /* border: 1px solid red; */
+  }
+  /* #menu-link #active{
+    background: #f39c12;
+  }  */
+  .menu-link:hover  {
+    background: #f39c12;
+    /* background: darken($primarycolor, 20%); */
+  
+  }
+   .orange {
+    background: #f39c12;
+  }
+
+
+
+  /* Popup */
+
+  .popup-app{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    flex-direction:column;
+    flex: 1;
+  }
+  .popup-wrapper{
+
+    height: auto;
+    width: auto;
+    /* background-color: #61dafb; */
+
+  }
+
+  .popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgba(0,0,0, 0.5);
+    z-index: 1;
+  }
+  .popup_inner{
+    position: absolute;
+    left: 25%;
+    right: 25%;
+    top: 25%;
+    bottom: 25%;
+    margin: auto;
+    background: white;
+  }
+
+  /*  image slider on 10/24/2019 */
+
+   .imgslide-app{
+   
+    height: auto;
+    width: 100%;
+  }
+  .imgslide-wrapper{
+
+    height: auto;
+    width: auto;
+    /* background-color: #61dafb; */
+
+  } 
+
+  /* Carousel on 10/31/2019 */
+
+  /* downloadimage on 11/4/2019 */
+  .inpt-search{
+   margin: 10px;
+  }
+  .download_inner{
+    position: absolute;
+    left: 25%;
+    /* right: 25%;
+    top: 25%;  
+    bottom: 25%;*/
+    margin: auto;
+    color: white;
+  }
+
+  .download_inner ul {
+    list-style-type: none; /* to hide bullets*/
+   text-align: left;
+   margin: 10px;
+  } 
+  .download_inner>ul>a{
+    text-decoration:none;
+  } 
+ 
+/* 
+  .Login-box {
+    display: flex;
+    flex-wrap: wrap;
+
+  }
+  
+  .login {
+    flex-grow: 1;
+    flex-basis: 50%;
+  }
+  
+  .login:after {
+    content: "";
+    flex: auto;
+  } */

@@ -1,0 +1,10 @@
+{
+    "userName": "amaleshwar.palthi",
+    "password": "8977Amal868654palt",
+    "server": "LOCALHOST\\SQLEXPRESS",
+    "database": "Login_Db",
+    "options": {
+      "encrypt": false
+    }
+}
+
