@@ -1,8 +1,8 @@
 import React from 'react';
 import Axios from 'axios';
 
-import loginimg from './images/login-img.jpg';
-// import loginimg1 from './images/molecular-background.jpg';
+//import loginimg from './images/login-img.jpg';
+ import loginimg from 'https://loading.io/s/icon/vajnbx.svg';
 // import loginimg2 from './images/login-img.jpg';
 
 export default class Login extends React.Component {
