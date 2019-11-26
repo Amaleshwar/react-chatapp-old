@@ -174,10 +174,15 @@ app.post('/readchatfile', function (req, res) {
  
   filePath =  __dirname + dropoffLocation +filename +'.txt';
 
-var files = fs.readFileSync(filePath); 
+  var chatdata = fs.readFileSync(filePath); 
+if(chatdata==null){
+  res.send("false");
+}
+else{
 //res.send(files);
-console.log(files);
-res.send(files);
+console.log(chatdata);
+res.send(chatdata);
+}
 
 });
 
@@ -191,7 +196,8 @@ app.post('/writechatfile', function (req, res) {
  
   filePath =  __dirname + dropoffLocation +filename +'.txt';
   
-  fs.writeFileSync(filePath, chat_data);
+  fs.writeFileSync(filePath, chat_data, { flag: 'a+' });
+
   console.log(chat_data)
 // console.log(filePath);
  res.send(filePath);

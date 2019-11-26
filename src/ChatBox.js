@@ -13,6 +13,12 @@ const userList =['amal','subhaga','admin','admin2']
 var prevuserclick='';
 var chatdata=''
 
+var tempdata =[
+    {
+            senderId: " ",
+            text: "Send message"
+          },
+]
 var DUMMY_DATA = [
     // {
     //   senderId: "amaleshwar",
@@ -50,13 +56,17 @@ componentDidMount(){
 handleinput(e){
     if(e.key === 'Enter'){
         var temp = {"senderId":this.props.sendername,"text":e.target.value}
-        DUMMY_DATA=[...DUMMY_DATA,temp]
-        this.setState({messages:DUMMY_DATA})
-        console.log("method", DUMMY_DATA)
 
-        const validJson = JSON.stringify(DUMMY_DATA) //to save in local storage
+        DUMMY_DATA=[...DUMMY_DATA,temp]
+
+        this.setState({messages:DUMMY_DATA})
+
+        console.log("method", temp)
+
+        var validJson = JSON.stringify(temp) //to save in local storage
+        validJson =validJson+','
       // this.onUnload();
-        window.localStorage.setItem(LOCALSTORAGE_KEY,validJson)
+      //  window.localStorage.setItem(LOCALSTORAGE_KEY,validJson)
 
         // to write to file 
         let formdata =new FormData();
@@ -103,9 +113,15 @@ handleuser(user){
             
     axios.post("http://localhost:8000/readchatfile",formdata)
         .then(res=>{    chatdata = res.data;
-                       console.log(res.data)
+                       console.log("result",res.data)
         }).then(()=>{ 
-            this.setState({messages: chatdata})            
+
+            if(chatdata=="false"){
+                this.setState({messages: tempdata})  
+            }
+            else{
+            this.setState({messages: chatdata})  
+            }          
         })      
  
 
