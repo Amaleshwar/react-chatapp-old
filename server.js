@@ -161,8 +161,42 @@ app.post('/user_register', function (req, res) {
   }); 
 });
 
+
 app.listen(8000, function() {
     console.log('App running on port 8000');
+});
+
+
+app.post('/readchatfile', function (req, res) {
+  let filename = req.body.filename.trim();
+
+  var dropoffLocation = '/public/ChatFiles/';
+ 
+  filePath =  __dirname + dropoffLocation +filename +'.txt';
+
+var files = fs.readFileSync(filePath); 
+//res.send(files);
+console.log(files);
+res.send(files);
+
+});
+
+app.post('/writechatfile', function (req, res) {
+
+  let chat_data = req.body.chatdata.trim();
+  let filename = req.body.filename.trim();
+  //console.log(filename);
+
+ var dropoffLocation = '/public/ChatFiles/';
+ 
+  filePath =  __dirname + dropoffLocation +filename +'.txt';
+  
+  fs.writeFileSync(filePath, chat_data);
+  console.log(chat_data)
+// console.log(filePath);
+ res.send(filePath);
+
+
 });
 
 
