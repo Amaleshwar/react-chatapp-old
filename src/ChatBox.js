@@ -9,6 +9,7 @@ const path = require('path');
 
 const LOCALSTORAGE_KEY = 'chat';
 var senderReciverKey=';'
+var Reciver="";
 const userList =['amal','subhaga','admin','admin2']
 var prevuserclick='';
 var chatdata=''
@@ -42,7 +43,8 @@ var DUMMY_DATA = [
 class ChatBox extends Component {
     constructor(props) {
         super(props);
-        this.state = {  messages:  DUMMY_DATA
+        this.state = {  messages:  tempdata,
+                        torender: false,
          }
     }
 //localStorage.getItem('chat') ? JSON.parse(window.localStorage.getItem(LOCALSTORAGE_KEY)) : DUMMY_DATA
@@ -53,13 +55,14 @@ componentDidMount(){
 }
 
 
+
 handleinput(e){
     if(e.key === 'Enter'){
         var temp = {"senderId":this.props.sendername,"text":e.target.value}
 
-        DUMMY_DATA=[...DUMMY_DATA,temp]
+       // DUMMY_DATA=[...DUMMY_DATA,temp]
 
-        this.setState({messages:DUMMY_DATA})
+        //this.setState({messages:DUMMY_DATA})
 
         console.log("method", temp)
 
@@ -84,13 +87,19 @@ handleinput(e){
        
       )
 
-        // props.dispatch(e.target.value,'Me')
-        e.target.value  =''
-
-    }
+    this.handleuser(Reciver)
+      // props.dispatch(e.target.value,'Me')
+      e.target.value  =''
+      console.log("2",this.state.torender);
+      if(this.state.torender){
+          console.log("1");
+          return <MessageList messages={this.state.messages}/>
+             }
+     }
+     
 }
 handleuser(user){
-
+    Reciver=user;
     if(prevuserclick !=''){ 
         var prevuserlink = document.getElementById(prevuserclick);
         prevuserlink.classList.remove('userclicked')
@@ -112,16 +121,17 @@ handleuser(user){
             formdata.append('filename',senderReciverKey);
             
     axios.post("http://localhost:8000/readchatfile",formdata)
-        .then(res=>{    chatdata = res.data;
-                       console.log("result",res.data)
+        .then(res=>{    chatdata = "["+res.data+"]";
+                       console.log("result",chatdata)
         }).then(()=>{ 
 
-            if(chatdata=="false"){
-                this.setState({messages: tempdata})  
-            }
-            else{
-            this.setState({messages: chatdata})  
-            }          
+            // if(chatdata=="false"){
+            //     console.log("false")
+            //     this.setState({messages: tempdata})  
+            // }
+            // else{
+            this.setState({messages: JSON.parse(chatdata),torender:true})  
+           // }          
         })      
  
 

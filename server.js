@@ -174,14 +174,48 @@ app.post('/readchatfile', function (req, res) {
  
   filePath =  __dirname + dropoffLocation +filename +'.txt';
 
-  var chatdata = fs.readFileSync(filePath); 
-if(chatdata==null){
-  res.send("false");
-}
-else{
-//res.send(files);
+  
+//   var chatdata = fs.readFileSync(filePath); 
+  
+//   chatdata = chatdata.toString().replace(/,\s*$/, "");
+//   console.log("in chatdata",chatdata)
+// if(chatdata==null){
+//   res.send("false");
+//   console.log("empty")
+// }
+// else{
+// //res.send(files);
+// console.log(chatdata);
+// res.send(chatdata);
+//  }
+
+// fs.readFileSync(filePath, (err, chatdata) => {
+//   if (err) {
+//     console.log("empty")
+//     res.send("false");
+    
+//    // return;
+//   }
+//   else{
+//     chatdata = chatdata.toString().replace(/,\s*$/, "");
+//     console.log("in chatdata",chatdata);
+
+//       res.send(chatdata);
+//   }
+// });
+
+try{
+var chatdata = fs.readFileSync(filePath);
+chatdata = chatdata.toString().replace(/,\s*$/, "");
+
+console.log("in chatdata",chatdata)
+
 console.log(chatdata);
 res.send(chatdata);
+}
+catch{
+  console.log("empty")
+  res.send("false");
 }
 
 });
