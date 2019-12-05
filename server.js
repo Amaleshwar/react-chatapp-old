@@ -76,6 +76,7 @@ app.post('/user_validate', function (req, res) {
  
   
   let username = req.body.user_name.trim();
+
   let userpwd = req.body.user_pwd.trim();
 
   // const getUserDetails = 'select User_Name, Password from Login_Details where User_Name=@uname and Password=@pwd';
@@ -109,7 +110,8 @@ app.post('/user_validate', function (req, res) {
       {
       res.send("Enter correct details");
       sql.close();
-      }     
+      } 
+          
     }).catch(function (err){
         console.log(err);
         res.send("Error");
@@ -174,43 +176,14 @@ app.post('/readchatfile', function (req, res) {
  
   filePath =  __dirname + dropoffLocation +filename +'.txt';
 
-  
-//   var chatdata = fs.readFileSync(filePath); 
-  
-//   chatdata = chatdata.toString().replace(/,\s*$/, "");
-//   console.log("in chatdata",chatdata)
-// if(chatdata==null){
-//   res.send("false");
-//   console.log("empty")
-// }
-// else{
-// //res.send(files);
-// console.log(chatdata);
-// res.send(chatdata);
-//  }
-
-// fs.readFileSync(filePath, (err, chatdata) => {
-//   if (err) {
-//     console.log("empty")
-//     res.send("false");
-    
-//    // return;
-//   }
-//   else{
-//     chatdata = chatdata.toString().replace(/,\s*$/, "");
-//     console.log("in chatdata",chatdata);
-
-//       res.send(chatdata);
-//   }
-// });
 
 try{
 var chatdata = fs.readFileSync(filePath);
 chatdata = chatdata.toString().replace(/,\s*$/, "");
 
-console.log("in chatdata",chatdata)
-
-console.log(chatdata);
+// console.log("in chatdata",chatdata)
+// console.log(filePath)
+//console.log(chatdata);
 res.send(chatdata);
 }
 catch{
@@ -229,15 +202,41 @@ app.post('/writechatfile', function (req, res) {
  var dropoffLocation = '/public/ChatFiles/';
  
   filePath =  __dirname + dropoffLocation +filename +'.txt';
-  
+  //console.log(filePath)
   fs.writeFileSync(filePath, chat_data, { flag: 'a+' });
 
-  console.log(chat_data)
+  //console.log(chat_data)
 // console.log(filePath);
  res.send(filePath);
 
 
 });
+
+
+////////////////////////////////////////////
+ //         socket
+///////////////////////////////////////////////
+
+
+
+var socket = require('socket.io');
+
+
+
+server = app.listen(8001, function(){
+    console.log('socket is listening on port 8001')
+});
+
+io = socket(server);
+
+io.on('connection', (socket) => {
+    console.log(socket.id);
+
+    socket.on('SEND_MESSAGE', function(data){
+        io.emit('RECEIVE_MESSAGE', data);
+    })
+});
+
 
 
  

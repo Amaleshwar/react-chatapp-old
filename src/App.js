@@ -13,7 +13,8 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { Loggedin: sessionStorage.getItem('state') ? JSON.parse(sessionStorage.getItem('state')).Loggedin : false,
+    this.state = { 
+                    Loggedin: sessionStorage.getItem('state') ? JSON.parse(sessionStorage.getItem('state')).Loggedin : false,
                     temp:null,
                     user_name: sessionStorage.getItem('state') ? JSON.parse(sessionStorage.getItem('state')).user_name : false,
                     
@@ -89,7 +90,8 @@ render(){
 
 {this.state.Loggedin ? <div  className="App-body"> 
   {this.state.CurComp} </div> :
-   <div  className="App-login-body"><Login parentCallback = {this.callbackFunction}/>   </div> }
+   <div  className="App-login-body"><Login parentCallback = {this.callbackFunction}/> 
+     </div> }
     </div>
     </div>
   );

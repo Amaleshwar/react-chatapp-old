@@ -29,6 +29,7 @@ export default class Login extends React.Component {
             let formdata =new FormData();
             formdata.append('user_name',username);
             formdata.append('user_pwd',password);
+           
             Axios.post("http://localhost:8000/user_validate",formdata)
             .then(res=>{console.log(res.statusText)
             result =res.data;
