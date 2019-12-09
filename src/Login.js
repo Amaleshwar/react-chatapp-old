@@ -13,9 +13,12 @@ export default class Login extends React.Component {
                         registerbox:false,
                     }
          }
+
+         
          
     componentDidMount(){
         this.loginpopup();
+
     }
     loginpopup(){
         document.getElementById('LoginPopup').style.display='block';
@@ -42,6 +45,8 @@ export default class Login extends React.Component {
             else
             {
                 this.setState({errormsg:result})
+                document.getElementById("username").value ='';
+                document.getElementById("password").value ='';
               
             }
         })
@@ -72,7 +77,13 @@ export default class Login extends React.Component {
         }
         else{
         
-            this.setState({errormsg:'Please Enter the Correct Details'});
+            this.setState({errormsg: 'Please Enter the Correct Details'});
+
+            document.getElementById("uname_register").value ='';
+            document.getElementById("pwd_register").value ='';
+            document.getElementById("pwd_cnfrm").value ='';
+            document.getElementById("email_id").value ='';
+            document.getElementById("cont_No").value ='';
             return;  
         }
       }
@@ -88,6 +99,8 @@ export default class Login extends React.Component {
 
         if(password!==confirmpwd)
         this.setState({errormsg:'Password does not match'});
+        document.getElementById("pwd_register").value ='';
+        document.getElementById("pwd_cnfrm").value ='';
       }
       handleemailId(){
           this.setState({errormsg:''})
@@ -96,6 +109,7 @@ export default class Login extends React.Component {
         var validate= regEmail.test(eamilid)
         if(!validate){
             this.setState({errormsg:'please enter valid EmailId'});
+            document.getElementById("email_id").value ='';
             return;
         }
       }
@@ -127,10 +141,10 @@ export default class Login extends React.Component {
             {this.state.registerbox && <div className="Register-box">
                     <table className="login">
                     <tr><input type="text" className="input100" name="username" id="uname_register" title="Enter User Name" placeholder="Enter UserName" /></tr>
-                    <tr><input type="text"  className="input100" name="password" id="email_id"  placeholder="Enter Email ID" onBlur={()=>this.handleemailId()}/></tr>
-                    <tr><input type="password" className="input100"  name="password" id="pwd_register" placeholder="Enter Password" /></tr>
-                    <tr><input type="text" className="input100"  name="password" id="pwd_cnfrm"onBlur={()=>this.handlecnfmpwd()} placeholder="Confirm Password" /></tr>
-                    <tr><input type="text" className="input100" name="password" id="cont_No" placeholder="Enter Contact Number" /></tr>
+                    <tr><input type="text"  className="input100" name="email_id" id="email_id"  placeholder="Enter Email ID" onBlur={()=>this.handleemailId()}/></tr>
+                    <tr><input type="password" className="input100"  name="pwd_register" id="pwd_register" placeholder="Enter Password" /></tr>
+                    <tr><input type="text" className="input100"  name="pwd_cnfrm" id="pwd_cnfrm"onBlur={()=>this.handlecnfmpwd()} placeholder="Confirm Password" /></tr>
+                    <tr><input type="number"pattern="[0-9]{10}"  className="input100" name="cont_No" id="cont_No" placeholder="Enter Contact Number" /></tr>
                     <tr><button  id="submit" value="Login" onClick={() => this.handlenewuser()}>Register </button></tr>
                     <tr><span style={{color:"red"}}> {this.state.errormsg}</span></tr>
             </table> 
