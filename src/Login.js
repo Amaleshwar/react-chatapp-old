@@ -33,7 +33,7 @@ export default class Login extends React.Component {
             Axios.post("http://localhost:8000/user_validate",formdata)
             .then(res=>{console.log(res.statusText)
             result =res.data;
-            
+            //this.sendData(username);
             if(result===1){
                 sessionStorage.setItem("loaded",true)
                 this.sendData(username);
@@ -119,7 +119,8 @@ export default class Login extends React.Component {
                     </tr>
                     <tr><input type="password" className="input100" name="password" id="password" placeholder="Enter Password" /> </tr>
                     <tr><button  id="submit" value="Login" onClick={(e) => this.validateUser(e)}>Login </button></tr>
-                </table>{this.state.errormsg}
+                    <tr><span style={{color:"red"}} > {this.state.errormsg} </span></tr>
+                </table>
 
             </div > }
             
@@ -131,7 +132,9 @@ export default class Login extends React.Component {
                     <tr><input type="text" className="input100"  name="password" id="pwd_cnfrm"onBlur={()=>this.handlecnfmpwd()} placeholder="Confirm Password" /></tr>
                     <tr><input type="text" className="input100" name="password" id="cont_No" placeholder="Enter Contact Number" /></tr>
                     <tr><button  id="submit" value="Login" onClick={() => this.handlenewuser()}>Register </button></tr>
-            </table>{this.state.errormsg}
+                    <tr><span style={{color:"red"}}> {this.state.errormsg}</span></tr>
+            </table> 
+            {/* {this.state.errormsg} */}
 
             </div >}
 
