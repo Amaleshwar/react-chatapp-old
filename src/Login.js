@@ -113,6 +113,16 @@ export default class Login extends React.Component {
             return;
         }
       }
+      handlecontactnumber(e){
+                var length = e.target.value.length
+                console.log("length is: ",length)
+                if(length!=10)
+                {
+                    this.setState({errormsg:'please enter valid contact number'});
+                     document.getElementById("cont_No").value ='';
+                     return;
+                }
+      }
     render() { 
         return ( 
         <div id="LoginPopup"  className="login-wrapper">
@@ -143,8 +153,8 @@ export default class Login extends React.Component {
                     <tr><input type="text" className="input100" name="username" id="uname_register" title="Enter User Name" placeholder="Enter UserName" /></tr>
                     <tr><input type="text"  className="input100" name="email_id" id="email_id"  placeholder="Enter Email ID" onBlur={()=>this.handleemailId()}/></tr>
                     <tr><input type="password" className="input100"  name="pwd_register" id="pwd_register" placeholder="Enter Password" /></tr>
-                    <tr><input type="text" className="input100"  name="pwd_cnfrm" id="pwd_cnfrm"onBlur={()=>this.handlecnfmpwd()} placeholder="Confirm Password" /></tr>
-                    <tr><input type="number"pattern="[0-9]{10}"  className="input100" name="cont_No" id="cont_No" placeholder="Enter Contact Number" /></tr>
+                    <tr><input type="text" className="input100"  name="pwd_cnfrm" id="pwd_cnfrm" onBlur={()=>this.handlecnfmpwd()} placeholder="Confirm Password" /></tr>
+                    <tr><input type="number" className="input100 contact_num" name="cont_No" id="cont_No" onBlur={(e)=>this.handlecontactnumber(e)} placeholder="Enter Contact Number" /></tr>
                     <tr><button  id="submit" value="Login" onClick={() => this.handlenewuser()}>Register </button></tr>
                     <tr><span style={{color:"red"}}> {this.state.errormsg}</span></tr>
             </table> 

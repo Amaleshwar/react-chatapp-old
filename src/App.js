@@ -81,11 +81,12 @@ render(){
       <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
         <h2 className="header-Text">  Chat App <br/></h2>
+        <span className="username text-right text-success" >  {this.state.user_name}</span> 
         
-  {this.state.Loggedin &&  <button  id="submit" className="Logout" value="Login" onClick={() => this.Logout()}>Logout </button>} 
+  {this.state.Loggedin && <button  id="submit" className="Logout" value="Login" onClick={() => this.Logout()}>Logout </button>} 
   
       </header>
-  {this.state.Loggedin &&    <ChatBox  sendername={this.state.user_name}/> }
+  {this.state.Loggedin &&    <ChatBox  sendername={this.state.user_name}/> } 
 
 
 {this.state.Loggedin ? <div  className="App-body"> 
