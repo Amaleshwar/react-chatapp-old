@@ -548,6 +548,7 @@
   max-width: 80%;
   padding: 4px 10px;
   border-radius: 8px;
+  position: relative;
   
 }
 
@@ -572,7 +573,7 @@
 }
 
 .sentText {
-  display: flex;
+  /* display: flex; */
   align-items: center;
   font-family: Helvetica;
   color: #828282;
@@ -610,6 +611,7 @@
 
 .backgroundLight {
   background: #F3F3F3;
+  
 
 }
 /* input */
@@ -646,4 +648,36 @@ input:focus, textarea:focus, select:focus, .searchinput:focus{
   background-color: darkturquoise;
   padding-top: 6px;
   padding-bottom: 6px;
+}
+
+
+
+
+
+/* Right triangle placed top left flush. */
+
+.left-top:before{
+  content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  left: -7px;
+	right: auto;
+  top: 0px;
+	bottom: auto;
+	border: 8px solid;
+	border-color: #F3F3F3 transparent transparent transparent;
+}
+
+.right-top:after{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  left: auto;
+	right: auto;
+  top: 0px;
+	bottom: auto;
+	border: 8px solid;
+	border-color: #2979FF transparent transparent transparent;
 }

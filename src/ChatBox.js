@@ -20,7 +20,8 @@ var chatdata=''
 var tempdata =[
     {
             senderId: " ",
-            text: "Send message"
+            text: "Send message",
+            time:" "
           },
 ]
 var DUMMY_DATA = [
@@ -131,7 +132,11 @@ print(){
 
 handleinput(e){
    // if(e.key === 'Enter'){
-        var temp = {"senderId":this.props.sendername,"text":this.state.message}
+       var date =new Date();
+       console.log(date)
+       date =new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(date);
+       console.log(date);
+        var temp = {"senderId":this.props.sendername,"text":this.state.message,"time":date}
         console.log(1)
         if(this.state.message===""){
                     console.log("empty message")
