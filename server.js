@@ -180,14 +180,14 @@ app.post('/readchatfile', function (req, res) {
   try {
     var chatdata = fs.readFileSync(filePath);
 
-    console.log("before chatdata", chatdata)
+   // console.log("before chatdata", chatdata)
     chatdata = chatdata.toString().replace(/,\s*$/, "");
 
     // chatdata = JSON.stringify(chatdata).replace(/,\s*$/, "");
     // chatdata = JSON.stringify(chatdata)
 
-    console.log("in chatdata", chatdata)
-    console.log(filePath)
+  //  console.log("in chatdata", chatdata)
+   // console.log(filePath)
     //console.log(chatdata);
     // res.send(chatdata );
     res.send('[' + chatdata + ']');

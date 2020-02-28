@@ -57,7 +57,7 @@ class ChatBox extends Component {
          }
          console.log("socket ")
          this.print();
-         this.socket = io('localhost:8001');
+         this.socket = io('10.33.105.106:8001');
          this.print = this.print.bind(this);
         this.socket.on('RECEIVE_MESSAGE', function(data){
             addMessage(data);
@@ -105,7 +105,7 @@ componentDidMount(){
     this.getfilenames();
   }
   getfilenames(){
-    axios.get("http://localhost:8000/getusers")
+    axios.get("http://10.33.105.106:8000/getusers")
     .then(res=>{    users = res.data;
                   // console.log(users)
     })
@@ -160,7 +160,7 @@ handleinput(e){
 
       var promise = new Promise(function(resolve, reject) {
         // call resolve if the method succeeds
-        axios.post("http://localhost:8000/writechatfile/",formdata)
+        axios.post("http://10.33.105.106:8000/writechatfile/",formdata)
         .then(res=>{console.log(res.data)})
          resolve(true);
       })
@@ -228,7 +228,7 @@ handleuser(user){
     let formdata =new FormData();
             formdata.append('filename',senderReciverKey);
             
-    axios.post("http://localhost:8000/readchatfile",formdata)
+    axios.post("http://10.33.105.106:8000/readchatfile",formdata)
         .then(res=>{  
            
                         //      chatdata = '['+ res.data + ']';
@@ -261,12 +261,14 @@ searchusers(e){
                     
                 </div>
                 <div  className="chatbox-body">
-                    <div  className="chatbox-userList">
+                    <table  className="chatbox-userList" cellpadding="1" cellspacing="1">
+                      <tr className="tr-userlist"><td>
                     <input type="search" className="chatbox-searchinput searchinput" id="searchinput" placeholder="Search"  onChange={(e)=>this.searchusers(e)}/>
+                        </td>   </tr>
                             {/* Amal <br/>Subhaga  */}
                             {/* { userList.map((user)=> <a id={user} key={user.toString()} className="user" onClick={()=>this.handleuser(user)}> {user} <br/> </a> )    } */}
-                           { this.state.userList.map((user)=> <a id={user} key={user.toString()} className="user" onClick={()=>this.handleuser(user)}> {user} <br/> </a> )    }
-                    </div>
+                           { this.state.userList.map((user)=> <tr className="tr-userlist"><td> <a id={user} key={user.toString()} className="user" onClick={()=>this.handleuser(user)}> {user} <br/> </a></td></tr> )    }
+                    </table>
                     <div  className="chatbox-message">
                         <div  className="chat-header " > {this.state.Reciver} </div>
                         <MessageList messages={this.state.messages} sender={this.props.sendername}/>

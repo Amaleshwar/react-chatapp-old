@@ -681,3 +681,7 @@ input:focus, textarea:focus, select:focus, .searchinput:focus{
 	border: 8px solid;
 	border-color: #2979FF transparent transparent transparent;
 }
+
+.tr-userlist{
+  height: 30px;
+}

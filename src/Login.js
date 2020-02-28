@@ -9,6 +9,7 @@ export default class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = { errormsg:'',
+                        sucessmsg:'',
                         loginbox: true,
                         registerbox:false,
                     }
@@ -33,7 +34,7 @@ export default class Login extends React.Component {
             formdata.append('user_name',username);
             formdata.append('user_pwd',password);
            
-            Axios.post("http://localhost:8000/user_validate",formdata)
+            Axios.post("http://10.33.105.106:8000/user_validate",formdata)
             .then(res=>{console.log(res.statusText)
             result =res.data;
             //this.sendData(username);
@@ -69,10 +70,11 @@ export default class Login extends React.Component {
           formdata.append('user_pwd',password);
           formdata.append('user_email_id',eamilid);
           formdata.append('user_cont_no',contactnumber);
-        if(username!==''&&password!==''&&eamilid!=='' && password===confirmpwd){
-                Axios.post("http://localhost:8000/user_register",formdata)
+        if(username!==''&&password!==''&&eamilid!=='' && password===confirmpwd ){
+                Axios.post("http://10.33.105.106:8000/user_register",formdata)
                 .then(res=>{console.log(res.statusText)
-                result =res.data;
+                result =res.data;  
+                this.setState({sucessmsg: 'Registered successfully.'});
           })
         }
         else{
@@ -98,9 +100,11 @@ export default class Login extends React.Component {
         let confirmpwd = document.getElementById("pwd_cnfrm").value;
 
         if(password!==confirmpwd)
+        {
         this.setState({errormsg:'Password does not match'});
         document.getElementById("pwd_register").value ='';
         document.getElementById("pwd_cnfrm").value ='';
+        }
       }
       handleemailId(){
           this.setState({errormsg:''})
@@ -157,6 +161,7 @@ export default class Login extends React.Component {
                     <tr><input type="number" className="input100 contact_num" name="cont_No" id="cont_No" onBlur={(e)=>this.handlecontactnumber(e)} placeholder="Enter Contact Number" /></tr>
                     <tr><button  id="submit" value="Login" onClick={() => this.handlenewuser()}>Register </button></tr>
                     <tr><span style={{color:"red"}}> {this.state.errormsg}</span></tr>
+                    <tr><span style={{color:"green"}}> {this.state.sucessmsg}</span></tr>
             </table> 
             {/* {this.state.errormsg} */}
 
