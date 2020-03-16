@@ -170,8 +170,8 @@ app.listen(8000, function () {
 
 
 app.post('/readchatfile', function (req, res) {
-  let filename = req.body.filename.trim();
-
+  let filename = req.body.filename.trim().toLowerCase();
+  console.log("filename ", filename)
   var dropoffLocation = '/public/ChatFiles/';
 
   filePath = __dirname + dropoffLocation + filename + '.txt';
@@ -206,8 +206,8 @@ app.post('/readchatfile', function (req, res) {
 app.post('/writechatfile', function (req, res) {
 
   let chat_data = req.body.chatdata.trim();
-  let filename = req.body.filename.trim();
-  //console.log(filename);
+  let filename = req.body.filename.trim().toLowerCase();
+  console.log("write file to: "+filename);
 
   var dropoffLocation = '/public/ChatFiles/';
 
@@ -227,7 +227,7 @@ app.get('/getusers', function (req, res) {
 
   const getUserNames = 'select User_Name from user_details';
 
-
+  sql.close();
   sql.connect(config).then(function () {
 
 
@@ -247,6 +247,7 @@ app.get('/getusers', function (req, res) {
   }).catch(function (err) {
     console.log(err);
     res.send("Error");
+    sql.close();
     
   });
 

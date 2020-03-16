@@ -131,13 +131,14 @@ print(){
 
 
 handleinput(e){
+  e.preventDefault();
    // if(e.key === 'Enter'){
        var date =new Date();
-       console.log(date)
+      // console.log(date)
        date =new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(date);
-       console.log(date);
+     //  console.log(date);
         var temp = {"senderId":this.props.sendername,"text":this.state.message,"time":date}
-        console.log(1)
+      //  console.log(1)
         if(this.state.message===""){
                     console.log("empty message")
                     return;
@@ -179,8 +180,13 @@ handleinput(e){
     
     this.handleuser(this.state.Reciver);
       // props.dispatch(e.target.value,'Me')
-      e.target.value  =''
-    document.getElementById("msginput").value='';
+      e.target.value  =""
+      console.log("---------------------------------------")
+      console.log(document.getElementById("msginput").value)
+    document.getElementById("msginput").value="";
+  //  document.getElementById("msginput").value.replace(/\n/g, "")
+    console.log('|'+document.getElementById("msginput").value+'|')
+    console.log("---------------------------------------")
       
       this.setState({message: ''})
      // console.log("2",this.state.torender);
@@ -196,7 +202,7 @@ handleinput(e){
 handleuser(user){
     this.setState({Reciver:user,errormessage:''})
     //Reciver=user;
-    console.log(user,this.state.Reciver)
+   // console.log(user,this.state.Reciver)
     try{
     if(prevuserclick !=''){ 
         var prevuserlink = document.getElementById(prevuserclick);
@@ -217,11 +223,11 @@ handleuser(user){
     }
 
     //generate Sender_Reciver Key:
-     var  senderReciver = [this.props.sendername,user];
+     var  senderReciver = [this.props.sendername.toLowerCase(),user.toLowerCase()];
      senderReciver.sort();
       senderReciverKey=senderReciver[0]+senderReciver[1]; 
      var pairfilename= senderReciverKey+".txt" // this pair key of sender and user.
-    console.log(senderReciverKey,pairfilename)    
+   // console.log(senderReciverKey,pairfilename)    
 
     pairfilename = path.join(__dirname, '/ChatFiles/',pairfilename);
   
@@ -234,11 +240,11 @@ handleuser(user){
                         //      chatdata = '['+ res.data + ']';
                         chatdata =  res.data;
                                
-                       console.log("result",chatdata)
+                     //  console.log("result",chatdata)
         }).then(()=>{ 
             // this.setState({messages: JSON.parse(chatdata)}) 
             this.setState({messages: chatdata})       
-            console.log("in fun :",this.state.messages)     
+          //  console.log("in fun :",this.state.messages)     
         })      
 }
 searchusers(e){
@@ -254,29 +260,32 @@ searchusers(e){
 
 
     render() { 
-        console.log("user name in chatbox :",this.props.sendername)
+       // console.log("user name in chatbox :",this.props.sendername)
         return ( 
             <div className="chatbox-app ">
                 <div  className="chatbox-header">
                     
                 </div>
                 <div  className="chatbox-body">
-                    <table  className="chatbox-userList" cellpadding="1" cellspacing="1">
-                      <tr className="tr-userlist"><td>
-                    <input type="search" className="chatbox-searchinput searchinput" id="searchinput" placeholder="Search"  onChange={(e)=>this.searchusers(e)}/>
-                        </td>   </tr>
+                    <div  className="chatbox-userList" cellpadding="1" cellspacing="1">
+                      <div className="div-searchuserlist">
+                    <     input type="search" className="chatbox-searchinput searchinput" id="searchinput" placeholder="Search"  onChange={(e)=>this.searchusers(e)}/>
+                          </div>
+                          <div className="userlist" id="userlist-scrollstyle">   
                             {/* Amal <br/>Subhaga  */}
                             {/* { userList.map((user)=> <a id={user} key={user.toString()} className="user" onClick={()=>this.handleuser(user)}> {user} <br/> </a> )    } */}
-                           { this.state.userList.map((user)=> <tr className="tr-userlist"><td> <a id={user} key={user.toString()} className="user" onClick={()=>this.handleuser(user)}> {user} <br/> </a></td></tr> )    }
-                    </table>
+                           { this.state.userList.map((user)=> <div className="div-userlist" ><button id={user} key={user.toString()} className="user" onClick={()=>this.handleuser(user)}> {user} <br/> </button></div> )    }
+                        </div>
+                    </div>
                     <div  className="chatbox-message">
                         <div  className="chat-header " > {this.state.Reciver} </div>
                         <MessageList messages={this.state.messages} sender={this.props.sendername}/>
-                       
-                        <div  className="chatbox-messageForm" >
-                            <input type="text" className="chatbox-msginput input" id="msginput" placeholder="Type Here and Press Enter" onKeyPress={event => event.key === 'Enter' ? this.handleinput(event) : null } onChange={ev => this.setState({message: ev.target.value})}/>
-                            <button className="sendButton" onClick={e => this.handleinput(e)}>Send</button>
-                        </div>
+                    <div  className="chatbox-messageForm input-group" >
+                            <textarea type="text" className="chatbox-msginput input " id="msginput" placeholder="Type Here and Press Enter" onKeyPress={event => (event.key === 'Enter') ? this.handleinput(event) : null } onChange={ev => this.setState({message: ev.target.value})}/>
+                            <div className="input-group-append">
+									      <span className="input-group-text sendButton"  onClick={e => this.handleinput(e)}><i class="fa fa-location-arrow"></i></span>
+								            </div>
+                     </div>
                     
                     </div>
                     

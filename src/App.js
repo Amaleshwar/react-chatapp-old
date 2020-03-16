@@ -30,8 +30,8 @@ onUnload = (event) => {
   
 }
 componentDidMount() {
- console.log(sessionStorage.getItem('state'))
- console.log(sessionStorage.getItem('user'))
+ //console.log(sessionStorage.getItem('state'))
+ //console.log(sessionStorage.getItem('user'))
  window.addEventListener("beforeunload", this.onUnload)
  //console.log(JSON.parse(sessionStorage.getItem('state')));
 }
@@ -45,7 +45,8 @@ componentWillUnmount() {
  Logout(){
   sessionStorage.setItem("loaded",false)
   sessionStorage.removeItem('loaded');
-  this.setState({ Loggedin: false })
+  sessionStorage.removeItem('state');
+  this.setState({ Loggedin: false,user_name: false })
  }
  callbackFunction = (childData,username) => {
   if( childData ==='true' ){
@@ -54,13 +55,13 @@ componentWillUnmount() {
   this.onUnload();
   }
   else
-  console.log("Else in Callback "+childData);
+    console.log("Else in Callback "+childData);
 }
 
 
 menuchange(menuitem,i){
 
- console.log(menuitem)
+// console.log(menuitem)
 
 
 
@@ -74,7 +75,7 @@ menuchange(menuitem,i){
 }
 
 render(){
-  console.log("username is" ,this.state.user_name)
+ // console.log("username is" ,this.state.user_name)
   return (
     <div>
     <div className="App" id="appid" >
