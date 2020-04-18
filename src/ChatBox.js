@@ -3,6 +3,8 @@ import './App.css';
 import MessageList from './MessageList';
 import { get } from 'http';
 import axios from 'axios';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 import io from "socket.io-client";
 
@@ -14,8 +16,13 @@ var senderReciverKey=';'
 //var Reciver="";
 //const userList = ['amal','subhaga','admin','admin2']
 var users=[];
+var userslist=[];
+var receiverList=[];
 var prevuserclick='';
-var chatdata=''
+var chatdata='';
+var listofnewmsg;
+
+var viewjson =[];
 
 var tempdata =[
     {
@@ -53,36 +60,54 @@ class ChatBox extends Component {
                         author:'',
                         Reciver:'Select User',
                         errormessage:'',
-                        userList:[]
+                        userList:[],
+                        inputtype:'text',
+                        userdetails:[],
+                        temp: true
          }
          console.log("socket ")
          this.print();
-         this.socket = io('10.33.105.106:8001');
+         this.socket = io('192.168.0.5:8001');
          this.print = this.print.bind(this);
+         this.createNotification = this.createNotification.bind(this);
         this.socket.on('RECEIVE_MESSAGE', function(data){
-            addMessage(data);
+            
+            addMessage(data)
             console.log("messge recived is:",data)
+        
+           
         });
 
         const addMessage = data => {
-           // console.log("data in data :",data);
+          console.log("data is: ",data)
+          this.handleuser(this.state.Reciver,"from-addmessage")
+          var reciverloginstatus = this.state.userdetails.filter((user)=>{ if(user.User_Name === data.msgreciver && user.Login_status===1 ){  return user.Login_status} })
 
+          console.log("reciverloginstatus",reciverloginstatus.length) 
+          if(  this.props.sendername === data.msgreciver && prevuserclick !== data.senderId){
+             console.log("call notification");
+             console.log("userclicked is ",prevuserclick);
+             this.createNotification(data)
+             console.log("called notification");  
+          }
+          else if( reciverloginstatus.length===0 && data.senderId===this.props.sendername ){
 
-          this.handleuser(this.state.Reciver);
-
-           // console.log("data in state before : ",this.state.messages);
-
-            //this.setState({messages: [...this.state.messages]})
-     
-     
-           // this.setState({messages: [...this.state.messages, data]});
-
-         //   console.log("data in state after :",this.state.messages);
-
-         //  this.handleuser(this.state.Reciver);
-         //  console.log("data in state after :",this.state.messages);
-     
+            let username = data.msgreciver; 
+            let sendername = this.props.sendername
+            console.log("sendername...............",sendername)
+            var result;
+            let formdata =new FormData();
+            formdata.append('user_name',username);
+            formdata.append('sender_name',sendername);
+            axios.post("http://192.168.0.5:8000/user_newmsg",formdata)
+            .then(res=>{console.log(res.statusText)
+            result =res.data;
+            console.log("logout result",result)
+          })
+             console.log("you are not correct Receiver");
+             console.log("userclicked is ",prevuserclick);
             
+          }
             
         };
     }
@@ -102,24 +127,44 @@ componentDidUpdate(){
 }
 
 componentDidMount(){
-    this.getfilenames();
+  
+   
+    try {
+      setInterval(async () => {
+        this.getfilenames();
+      }, 3000);
+      // setInterval(async () => {
+      //   window.location.reload();
+      // }, 1*60*1000);
+    } catch(e) {
+      console.log(e);
+    }
   }
   getfilenames(){
-    axios.get("http://10.33.105.106:8000/getusers")
+    axios.get("http://192.168.0.5:8000/getusers")
     .then(res=>{    users = res.data;
-                  // console.log(users)
     })
     .then(()=>{ 
-
         var toremove = this.props.sendername;
+         userslist = users.map((key) => key.User_Name);
+       // console.log(userslist)
         var tempunames = users;
-        users = tempunames.filter(tempuname => tempuname.toLowerCase().indexOf(toremove.toLowerCase()) === -1)
-      //  console.log(users)
-        this.setState({userList: users})
-       // console.log(this.state.userList)
-        // console.log(this.state.filenames[0]) 
-        // console.log(this.state.filenames.length) 
-        
+        userslist = tempunames.filter(tempuname => tempuname.User_Name.toLowerCase() !== toremove.toLowerCase())  // (tempuname => tempuname.toLowerCase().indexOf(toremove.toLowerCase()) === -1)  
+        console.log("userslist",userslist);
+        receiverList = userslist;
+       // userslist= userslist.map( (user)=>   user.User_Name.replace(/^./, user.User_Name[0].toUpperCase()) )  // updated to get first character of each name to Capital
+        this.setState({userList: userslist,userdetails:userslist})  
+       // console.log("userslist",userslist);
+
+      var  msgnotilist = tempunames.filter(tempuname => tempuname.User_Name.toLowerCase() === toremove.toLowerCase())
+      listofnewmsg = msgnotilist[0].new_msgfrom
+      console.log("userdetails",listofnewmsg)
+      listofnewmsg = JSON.parse(listofnewmsg)
+
+     if(listofnewmsg !== null){ listofnewmsg.map( (user)=> {     document.getElementById(user).classList.add("usernewmsg")     } ) }
+
+
+       
     })      
   }
 
@@ -131,88 +176,109 @@ print(){
 
 
 handleinput(e){
-  e.preventDefault();
-   // if(e.key === 'Enter'){
+    e.preventDefault();
+    console.log("in handeinput",e.target.type)
+
+
+    var filedata='';
        var date =new Date();
-      // console.log(date)
        date =new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(date);
-     //  console.log(date);
+       if(e.target.type==='file'){
+        var file = e.target.files[0];
+        var reader = new FileReader();
+     
+        reader.onloadend = function() {
+          console.log('RESULT', reader.result)
+         filedata= reader.result;
+        
+        }
+        console.log('RESULT', filedata)
+        reader.readAsDataURL(file);
+        this.setState({message:reader.result} ) 
+        console.log("setstate",filedata)
+        var temp = {"senderId":this.props.sendername,"text":filedata,"time":date}
+    }
+    else{
         var temp = {"senderId":this.props.sendername,"text":this.state.message,"time":date}
-      //  console.log(1)
-        if(this.state.message===""){
+    }
+        if(this.state.message==="" ){   //this.state.message   //  e.target.value
                     console.log("empty message")
                     return;
         } console.log(2)
-       // DUMMY_DATA=[...DUMMY_DATA,temp]
-
-        //this.setState({messages:DUMMY_DATA})
-
         console.log("method", temp)
 
-        var validJson = JSON.stringify(temp) //to save in local storage
+        var validJson = JSON.stringify(temp) 
         validJson =validJson+','
-      // this.onUnload();
-      //  window.localStorage.setItem(LOCALSTORAGE_KEY,validJson)
-
-        // to write to file 
         let formdata =new FormData();
             formdata.append('chatdata',validJson);
             formdata.append('filename',senderReciverKey);
-
-      var promise = new Promise(function(resolve, reject) {
-        // call resolve if the method succeeds
-        axios.post("http://10.33.105.106:8000/writechatfile/",formdata)
+      axios.post("http://192.168.0.5:8000/writechatfile/",formdata)
         .then(res=>{console.log(res.data)})
-         resolve(true);
-      })
-      promise.then(bool => 
-        console.log(""),
-       
+        .then(res=> console.log("should send msg"),
+        this.socket.emit('SEND_MESSAGE', {
+          senderId:  this.props.sendername,
+          text: e.target.value,
+          msgreciver:this.state.Reciver
+      }) 
       )
-        
-
-    this.socket.emit('SEND_MESSAGE', {
-        senderId:  this.props.sendername,
-        text: e.target.value,
-      
-    })
-
-    
-    this.handleuser(this.state.Reciver);
-      // props.dispatch(e.target.value,'Me')
-      e.target.value  =""
-      console.log("---------------------------------------")
-      console.log(document.getElementById("msginput").value)
-    document.getElementById("msginput").value="";
-  //  document.getElementById("msginput").value.replace(/\n/g, "")
-    console.log('|'+document.getElementById("msginput").value+'|')
-    console.log("---------------------------------------")
-      
-      this.setState({message: ''})
-     // console.log("2",this.state.torender);
-   //   if(this.state.torender){
-      //    console.log("1");
-          return <MessageList messages={this.state.messages} sender={this.props.sendername}/>
-      //       }
-
-    // }
-     
+      .then(res=>{ this.handleuser(this.state.Reciver,"from-handleinput")})
+      .then(res=>       console.log("---------------------------------------"),
+      console.log(document.getElementById("msginput").value),
+    document.getElementById("msginput").value="",
+    console.log('|'+document.getElementById("msginput").value+'|'),
+    console.log("---------------------------------------"),     
+    )
+    .then(res=>{   return <MessageList messages={this.state.messages} sender={this.props.sendername}/> })  
 }
 
-handleuser(user){
+handleuser(user,ggg){
     this.setState({Reciver:user,errormessage:''})
-    //Reciver=user;
-   // console.log(user,this.state.Reciver)
+    console.log("user: ",user," ggg: ",ggg)
+   
     try{
+      if(user !== 'Select User'){ document.getElementById(user).classList.remove('usernewmsg') }
     if(prevuserclick !=''){ 
         var prevuserlink = document.getElementById(prevuserclick);
         prevuserlink.classList.remove('userclicked')
+        
     }
-
     var userlink= document.getElementById(user);
     userlink.classList.add("userclicked")
    
     prevuserclick=user;
+
+
+     if(listofnewmsg !== null)
+     {
+
+      var notifi_fromuser =  listofnewmsg.indexOf(user)  
+      console.log("after filter:",notifi_fromuser)
+  
+      if(notifi_fromuser !== -1){
+
+      //  console.log("fgggggggggggggggggggggggggggggggggggggggggggghjfkgjjkdnfjdnfksdnfkajdfn",listofnewmsg)
+
+        listofnewmsg = listofnewmsg.filter((useritem)=> useritem !== user);
+       // console.log("fgggggggggggggggggggggggggggggggggggggggggggghjfkgjjkdnfjdnfksdnfkajdfn",listofnewmsg)
+ 
+        listofnewmsg =JSON.stringify(listofnewmsg)
+        console.log("after stringyfy",listofnewmsg)
+ 
+       let username =this.props.sendername; 
+       let msgfromlist = listofnewmsg;
+       var result;
+       let formdata =new FormData();
+       formdata.append('user_name',username);
+       formdata.append('listofnewmsg',msgfromlist);
+       axios.post("http://192.168.0.5:8000/removeuser_newmsg",formdata)
+       .then(res=>{console.log(res.statusText)
+       result =res.data;
+       console.log("removed msg from user list",result)
+ 
+     })
+       
+      }
+  }
 
     }
     catch(error)
@@ -222,7 +288,6 @@ handleuser(user){
             return;
     }
 
-    //generate Sender_Reciver Key:
      var  senderReciver = [this.props.sendername.toLowerCase(),user.toLowerCase()];
      senderReciver.sort();
       senderReciverKey=senderReciver[0]+senderReciver[1]; 
@@ -234,62 +299,117 @@ handleuser(user){
     let formdata =new FormData();
             formdata.append('filename',senderReciverKey);
             
-    axios.post("http://10.33.105.106:8000/readchatfile",formdata)
+    axios.post("http://192.168.0.5:8000/readchatfile",formdata)
         .then(res=>{  
            
                         //      chatdata = '['+ res.data + ']';
                         chatdata =  res.data;
                                
-                     //  console.log("result",chatdata)
+                       console.log("result",chatdata)
         }).then(()=>{ 
             // this.setState({messages: JSON.parse(chatdata)}) 
             this.setState({messages: chatdata})       
-          //  console.log("in fun :",this.state.messages)     
-        })      
+            console.log("in fun ",ggg, " :" ,this.state.messages)    
+         }) //.then(()=>{  
+        //     if(ggg==='from-addmessage'){
+        //     console.log("call notification");
+        //    this.createNotification('success')
+        //    console.log("called notification");  
+        //     }
+        //     else{
+        //         console.log("no notification");  
+        //     }
+        // })      
 }
 searchusers(e){
     console.log(e.target.value)
     var tosearch = e.target.value;
-    var tempfnames = users ;
-    var res = tempfnames.filter(tempfname => tempfname.toLowerCase().indexOf(tosearch.toLowerCase()) !== -1)
+    var tempfnames = receiverList ;
+    var res = tempfnames.filter(tempfname => tempfname.User_Name.toLowerCase().indexOf(tosearch.toLowerCase()) !== -1)
   
-    this.setState({userList:res,Reciver:'Select User',messages:  tempdata}) //to view only searched files
+    this.setState({userdetails:res,Reciver:'Select User',messages:  tempdata}) //to view only searched files
 
     
    }
+   addattachment(e){
+    //    alert("hi",e.target.files[0].name)
+       console.log(e.target.files[0])
+    //   var fileis = e.target.files[0]
+    //     this.setState({inputtype:'file'},
+    //    document.getElementById('msginput').value= e.target.files[0] )
+      // this.setState({inputtype:'file'}
+    //    , () => {document.getElementById('msginput').value= fileis}
+   // );
+   // document.getElementById('msginput').value= e.target.files[0]
+       
+   }
+   createNotification(msg) {
+
+    console.log("------before return----   inside notification");
+    NotificationManager.success(msg.text, `New Message From ${msg.senderId} `,10000, ()=> {this.handleuser(msg.senderId,"from-notification")} );
+    console.log("----------   inside notification");
+    
+    try{
+    var usernewmsg= document.getElementById(msg.senderId);
+    usernewmsg.classList.add("usernewmsg");
+    }
+    catch(error)
+          
+    {
+            
+            return;
+    }
+    return ;
+  };
 
 
     render() { 
        // console.log("user name in chatbox :",this.props.sendername)
         return ( 
             <div className="chatbox-app ">
+
                 <div  className="chatbox-header">
                     
                 </div>
                 <div  className="chatbox-body">
                     <div  className="chatbox-userList" cellpadding="1" cellspacing="1">
                       <div className="div-searchuserlist">
-                    <     input type="search" className="chatbox-searchinput searchinput" id="searchinput" placeholder="Search"  onChange={(e)=>this.searchusers(e)}/>
+                        <input type="search" className="chatbox-searchinput searchinput" id="searchinput" placeholder="Search"  onChange={(e)=>this.searchusers(e)}/>
                           </div>
                           <div className="userlist" id="userlist-scrollstyle">   
                             {/* Amal <br/>Subhaga  */}
                             {/* { userList.map((user)=> <a id={user} key={user.toString()} className="user" onClick={()=>this.handleuser(user)}> {user} <br/> </a> )    } */}
-                           { this.state.userList.map((user)=> <div className="div-userlist" ><button id={user} key={user.toString()} className="user" onClick={()=>this.handleuser(user)}> {user} <br/> </button></div> )    }
+                           { this.state.userdetails.map((user)=> <div className="div-userlist" ><button id={user.User_Name} key={user.User_Name.toString()} className="user" onClick={()=>this.handleuser(user.User_Name,"from-userclick")}>
+                               {  user.Login_status ===1 ?   
+                               <span className="btn-username-span"><i className="fa fa-globe" aria-hidden="true"></i> {user.User_Name.replace(/^./, user.User_Name[0].toUpperCase())}  </span> :
+                              <span className="btn-username-span"><i className="fa fa-circle"  ></i> {user.User_Name.replace(/^./, user.User_Name[0].toUpperCase())} </span>
+                                }
+                               <br/> </button></div> )    }
                         </div>
                     </div>
                     <div  className="chatbox-message">
-                        <div  className="chat-header " > {this.state.Reciver} </div>
+                        <div  className="chat-header " > {this.state.Reciver}<span className="attachbutton" >
+                            <label for="inputFileToLoad">
+         <i className="fa fa-paperclip" style={{cursor: 'pointer'}} ></i>
+    </label>
+    <input id="inputFileToLoad"   type="file" className="fa fa-paperclip" name="" style={{display: 'none',cursor: 'pointer'}}
+    onClick={(e)=>this.addattachment(e)} onChange={(e)=>this.handleinput(e)} /></span> </div>
                         <MessageList messages={this.state.messages} sender={this.props.sendername}/>
                     <div  className="chatbox-messageForm input-group" >
-                            <textarea type="text" className="chatbox-msginput input " id="msginput" placeholder="Type Here and Press Enter" onKeyPress={event => (event.key === 'Enter') ? this.handleinput(event) : null } onChange={ev => this.setState({message: ev.target.value})}/>
+                            <textarea type={`${this.state.inputtype}`} className="chatbox-msginput input " id="msginput" placeholder="Type Here and Press Enter" onKeyPress={event => (event.key === 'Enter') ? this.handleinput(event) : null } onChange={ev => this.setState({message: ev.target.value})}   /> 
                             <div className="input-group-append">
-									      <span className="input-group-text sendButton"  onClick={e => this.handleinput(e)}><i class="fa fa-location-arrow"></i></span>
+									      <span className="input-group-text-override sendButton"  onClick={e => this.handleinput(e)}><i class="fa fa-location-arrow"></i></span>
 								            </div>
                      </div>
                     
                     </div>
                     
-                </div> {this.state.errormessage}
+                </div> 
+                {/* {this.state.errormessage}  */}
+                <span style={{color:"red"}}> {this.state.errormessage}</span>
+              
+                <NotificationContainer/>
+
  
         </div> 
         );

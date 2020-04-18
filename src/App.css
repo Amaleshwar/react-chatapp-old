@@ -450,8 +450,8 @@
 .chatbox-userList{
   background-color: black;
   padding: 10px;
-  width:150px;
-  height: 500px;
+  width:250px;
+  height: 560px;
   text-align: left;
   display: flex;
     flex-direction: column;
@@ -466,8 +466,10 @@
   overflow: overlay;
 } */
 .chatbox-message{
-  width:400px;
-  height: 406px;
+  /* width:400px;
+  height: 406px; */
+  width: 460px;
+  height: 452px;
 }
 
 
@@ -475,7 +477,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 50vh;
+  /* height: 50vh; */
   flex-direction:column;
   flex: 1;
   padding: 20px;;
@@ -623,9 +625,11 @@
 
 .chat-header{
   background-color: darkcyan;
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding: 6px 6px 6px 20px;
   color: white;
+      font-size: x-large;
+      text-align: left; 
+      
 }
 
 .div-userlist{
@@ -640,7 +644,7 @@
     background-color: black;
     border: none;
     color: white;
-    text-align: center;
+    text-align: left;
     text-decoration: none;
     display: inline-block;
     cursor: pointer;
@@ -743,13 +747,62 @@ background-color: rgba(0,0,0,0.3) !important;
   cursor: pointer;
 
 } 
+.input-group-text-override{
+  /* padding-right: 14px;
+  padding-left: 14px; */
+  
+  display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+
+}
 
 .input {
   /* border: none; */
   border-radius: 0;
-  padding: 15px;
-   width: 90%;
+  padding: 10px;
+   width: 92%;
   font-size: 1em;
 }
 
 
+
+.attachbutton{
+  /* margin-left: 290px; */
+  cursor: pointer;
+  right: 10%;
+    position: absolute;
+}
+
+.username{
+  font-size: 1.5rem;
+  right: 16%;
+  position: absolute;
+  margin: 5px;
+}
+
+.btn-username-span{
+  padding-left: 25px;
+}
+
+/* .usernewmsg{
+  background-color: #2ba805;
+} */
+@keyframes glowingbtn {
+  0% { background-color: #2ba805; box-shadow: 0 0 5px #2ba805; }
+  50% { background-color: black; box-shadow: 0 0 20px black; }
+  100% { background-color: #2ba805; box-shadow: 0 0 5px #2ba805; }
+  }
+  .usernewmsg {
+  animation: glowingbtn 1300ms infinite;
+  }

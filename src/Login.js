@@ -34,13 +34,14 @@ export default class Login extends React.Component {
             formdata.append('user_name',username);
             formdata.append('user_pwd',password);
            
-            Axios.post("http://10.33.105.106:8000/user_validate",formdata)
+            Axios.post("http://192.168.0.5:8000/user_validate",formdata)
             .then(res=>{console.log(res.statusText)
             result =res.data;
             //this.sendData(username);
             if(result===1){
                 sessionStorage.setItem("loaded",true)
                 this.sendData(username);
+                window.location.reload();
                 this.setState({errormsg:''})
             }
             else
@@ -66,7 +67,7 @@ export default class Login extends React.Component {
 
           var result;
           var users=[];
-          Axios.get("http://10.33.105.106:8000/getusers")
+          Axios.get("http://192.168.0.5:8000/getusers")
           .then(res=>{    users = res.data;
                         // console.log(users)
           })
@@ -96,7 +97,7 @@ export default class Login extends React.Component {
             if(username!==''&& password!==''&& this.state.errormsg===''){   
 
 
-                Axios.post("http://10.33.105.106:8000/user_register",formdata)
+                Axios.post("http://192.168.0.5:8000/user_register",formdata)
                 .then(res=>{console.log(res.statusText) 
                 this.setState({sucessmsg: 'Registered successfully.'});
                 this.DoInputsEmpty();
