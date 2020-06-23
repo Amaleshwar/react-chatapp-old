@@ -1,0 +1,1 @@
+export const ipadd= '192.168.0.6';
